@@ -1,0 +1,196 @@
+/* General Reset */
+html {
+  height: 100%;
+}
+
+body,
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.6;
+  color: #333;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Updated Hero Section for Sky Theme */
+.hero {
+  background: linear-gradient(to bottom, #87ceeb, #1e90ff);
+  color: white;
+  text-align: center;
+  padding: 100px 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #ff7f50;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.btn-primary:hover {
+  background: #ff4500;
+}
+
+/* Features Section */
+.features {
+  padding: 50px 20px;
+  background: #f4f4f4;
+  flex: 1;
+}
+
+.features h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.feature-list {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.feature-item {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  text-align: center;
+}
+
+.feature-item h3 {
+  margin-bottom: 10px;
+  color: #4facfe;
+}
+
+/* Updated Controls Section for Softer Borders */
+.controls {
+  padding: 50px 20px;
+  background: linear-gradient(to bottom, #f0f8ff, #e6e6fa);
+  text-align: center;
+  border-top: 1px dashed rgba(30, 144, 255, 0.7); /* 改為虛線並降低透明度 */
+  border-bottom: 1px dashed rgba(30, 144, 255, 0.7); /* 改為虛線並降低透明度 */
+}
+
+.controls h2 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+/* Optimized Control Button Layout */
+.control-panel {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(120px, 1fr)
+  ); /* 更靈活的網格佈局 */
+  gap: 20px; /* 增加按鈕之間的間距 */
+  justify-items: center; /* 按鈕居中對齊 */
+}
+
+.control-group {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-bottom: 40px; /* 增加分組之間的間距 */
+}
+
+.control-btn {
+  margin: 10px 0; /* 增加按鈕的上下間距 */
+  padding: 10px 15px; /* 調整按鈕大小以適應新佈局 */
+  font-size: 1rem;
+  color: white;
+  background: #4682b4;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.control-btn:hover {
+  background: #5a9bd4;
+  transform: scale(1.05);
+}
+
+/* Unified Flight Info Section Style */
+.flight-info {
+  padding: 50px 20px;
+  background: linear-gradient(to bottom, #f0f8ff, #e6e6fa); /* 統一背景漸變 */
+  text-align: center;
+  border-radius: 8px; /* 增加圓角以保持一致 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 增加陰影效果 */
+}
+
+.flight-info h2 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.info-panel {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.info-item {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 統一卡片陰影 */
+  text-align: center;
+  flex: 1;
+  min-width: 150px;
+  border: 1px solid #1e90ff; /* 增加邊框以保持一致 */
+}
+
+.info-item h3 {
+  margin-bottom: 10px;
+  color: #2c3e50; /* 統一標題顏色 */
+}
+
+.info-item p {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* Footer */
+.footer {
+  background: #333;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: auto;
+}
