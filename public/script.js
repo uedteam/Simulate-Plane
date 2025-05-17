@@ -1,4 +1,31 @@
-console.log("Hello, Simulate Plane!");
+const ws = new WebSocket("ws://localhost:3032");
+const messagesDiv = document.getElementById("speed-info");
+const altitudeDiv = document.getElementById("altitude-info");
+const directionDiv = document.getElementById("direction-info");
+
+ws.onopen = () => {
+  console.log("✅ 已連線到 WebSocket 伺服器");
+};
+
+ws.onmessage = (event) => {
+  const parsedData = JSON.parse(event.data);
+  // console.log("📩 收到訊息：", parsedData.count);
+  // console.log("📩 收到訊息：", parsedData.height);
+  // console.log("📩 收到訊息：", parsedData.direction);
+
+  messagesDiv.textContent = `${parsedData.km}`;
+  altitudeDiv.textContent = `${parsedData.height}`;
+  directionDiv.textContent = `${parsedData.direction}`;
+  // messagesDiv.scrollTop = messagesDiv.scrollHeight;
+};
+
+ws.onerror = (err) => {
+  console.error("❌ WebSocket 發生錯誤：", err);
+};
+
+ws.onclose = () => {
+  console.log("🔌 WebSocket 連線已關閉");
+};
 
 const handleTakeOff = () => {
   fetch("/send", {
