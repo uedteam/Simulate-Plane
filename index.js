@@ -2,17 +2,15 @@ import express from "express";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
-import dgram from "dgram";
-import { startReceiver } from "./src/server/receiver.js";
-import { startSender } from "./src/server/sender.js";
-
-const TARGET_PORT = process.env.SENDER_PORT;
-const TARGET_HOST = process.env.SENDER_HOST;
+import { startReceiver } from "./src/servers/receiver.js";
+import sendRoute from "./src/routes/send-route.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-dotenv.config();
+dotenv.config({
+  path: `.env.${process.env.NODE_ENV || "development"}`,
+});
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -21,43 +19,23 @@ const port = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 
-const socket = dgram.createSocket("udp4");
+// 掛載 send 路由
+app.use(sendRoute);
 
-app.post("/send", (req, res) => {
-  const message = req.body.message; // 假設你從請求中獲取要發送的資料
-
-  if (!message) {
-    return res.status(400).send("請提供要發送的資料");
-  }
-  const bufferMessage = Buffer.from(message);
-  socket.send(
-    bufferMessage,
-    0,
-    bufferMessage.length,
-    TARGET_PORT,
-    TARGET_HOST,
-    (err) => {
-      if (err) {
-        console.error("傳送錯誤：", err);
-        res.status(500).send("傳送錯誤");
-      } else {
-        console.log("已發送：", message.toString());
-        res.send("資料已發送");
-      }
-    },
-  );
-});
-
-// 所有非 API 的路由都導向 index.html（SPA 模式）
+// 設定首頁路由
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+// 處理 404 錯誤
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(__dirname, "public", "404.html"));
+});
+
+// 啟動 Express 伺服器
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
 
-// 啟動發送器
-// startSender();
 // 啟動接收器
 startReceiver();
