@@ -29,7 +29,7 @@ simulate-plane/
 │   ├── style.css
 │   └── script.js
 ├── src/
-│   └── server/
+│   └── servers/
 │       ├── sender.js       # Node.js 發送端
 │       ├── receiver.js     # Node.js 接收端
 │       ├── sender.lua      # Lua 發送端
@@ -65,16 +65,16 @@ simulate-plane/
    npm run start:pm2
    ```
 
-4. 開啟瀏覽器進入 [http://localhost:3000](http://localhost:3000)
+4. 開啟瀏覽器進入 [http://localhost:3031](http://localhost:3031)
 
 ## UDP 模擬操作
 
 - Node.js 版本：
-  - `src/server/sender.js`：發送假資料封包
-  - `src/server/receiver.js`：接收封包並顯示
+  - `src/servers/sender.js`：發送假資料封包
+  - `src/servers/receiver.js`：接收封包並顯示
 - Lua 版本：
 
-  - `src/server/sender.lua`、`src/server/receiver.lua`
+  - `src/servers/sender.lua`、`src/servers/receiver.lua`
   - 執行方式：
 
     ```bash
@@ -93,4 +93,4 @@ simulate-plane/
 
 ## 授權
 
-本專案採用 ISC License。
+本專案僅供授權用戶或團隊內部使用，未經授權不得散布、修改或用於商業用途。如需取得授權或合作，請聯絡專案負責人。
