@@ -1,12 +1,26 @@
 import dgram from "dgram";
 import dotenv from "dotenv";
+import { log, error as logError } from "../utils/logger.js";
+import { WebSocketServer } from "ws";
 
-dotenv.config();
+dotenv.config({
+  path: `.env.${process.env.NODE_ENV || "development"}`,
+});
 
-const LISTEN_PORT = process.env.RECEIVER_PORT;
-const LISTEN_HOST = process.env.RECEIVER_HOST;
+const LISTEN_PORT = process.env.RECEIVER_PORT || 41235;
+const LISTEN_HOST = process.env.RECEIVER_HOST || "127.0.0.1";
+const WS_PORT = process.env.WS_PORT || 3002;
 
 const socket = dgram.createSocket("udp4");
+const wss = new WebSocketServer({ port: WS_PORT });
+
+function broadcastToClients(message) {
+  wss.clients.forEach((client) => {
+    if (client.readyState === 1) {
+      client.send(message);
+    }
+  });
+}
 
 export function startReceiver() {
   if (!LISTEN_PORT || !LISTEN_HOST) {
@@ -20,10 +34,11 @@ export function startReceiver() {
   }
 
   socket.on("message", (msg, rinfo) => {
-    console.log(
-      `📩 收到來自 ${rinfo.address}:${rinfo.port} 的訊息：`,
-      msg.toString(),
-    );
+    const logMsg = `📩 收到來自 ${rinfo.address}:${
+      rinfo.port
+    } 的訊息：${msg.toString()}`;
+    console.log(logMsg);
+    broadcastToClients(msg.toString());
   });
 
   socket.on("error", (err) => {
@@ -34,6 +49,7 @@ export function startReceiver() {
   socket.on("listening", () => {
     const address = socket.address();
     console.log(`📡 接收器正在監聽 ${address.address}:${address.port}`);
+    console.log(`📡 WebSocket 伺服器已啟動，監聽 port ${WS_PORT}`);
   });
 
   socket.bind(LISTEN_PORT, LISTEN_HOST, () => {
