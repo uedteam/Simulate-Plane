@@ -9,8 +9,8 @@
     "monitor": "pm2 monit",
     "start": "nodemon index.js",
     "start:pm2": "pm2 start index.js --name simulate-plane --watch",
-    "send:lua": "lua ./src/server/sender.lua",
-    "receive:lua": "lua ./src/server/receiver.lua"
+    "send:lua": "lua ./src/servers/sender.lua",
+    "receive:lua": "lua ./src/servers/receiver.lua"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +20,8 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "nodemon": "^3.1.10",
-    "pm2": "^6.0.6"
+    "pm2": "^6.0.6",
+    "winston": "^3.17.0",
+    "ws": "^8.18.2"
   }
 }
