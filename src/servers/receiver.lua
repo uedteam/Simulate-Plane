@@ -1,8 +1,13 @@
 local socket = require("socket")
 local udp = socket.udp()
 
+-- 設定目標地址和端口
 -- 對 localhost 監聽，或用 0.0.0.0 綁全部介面
-udp:setsockname("127.0.0.1", 49005)
+-- 如果需要監聽特定 IP，請修改下面的 IP 地址
+local target_ip = os.getenv("RECEIVER_HOST")
+local target_port = os.getenv("RECEIVER_PORT")
+
+udp:setsockname(target_ip, target_port)
 udp:settimeout(3)
 
 print("🔄 開始等待 UDP 封包...")

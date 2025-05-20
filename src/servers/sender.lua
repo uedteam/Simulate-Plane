@@ -2,8 +2,10 @@ local socket = require("socket")
 local udp = socket.udp()
 
 -- 設定目標地址和端口
-local target_ip = "127.0.0.1"
-local target_port = 49004
+-- 對 localhost 監聽，或用 0.0.0.0 綁全部介面
+-- 如果需要發送到特定 IP，請修改下面的 IP 地址
+local target_ip = os.getenv("SENDER_HOST")
+local target_port = os.getenv("SENDER_PORT")
 
 -- 持續發送資料
 while true do
