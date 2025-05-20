@@ -29,7 +29,7 @@ ws.onclose = () => {
 };
 
 const handleTakeOff = () => {
-  fetch("/send", {
+  fetch("/api/v1/send", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
