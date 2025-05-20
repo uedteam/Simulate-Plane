@@ -51,7 +51,7 @@ const handleTakeOff = () => {
 };
 
 const handleLand = () => {
-  fetch("/send", {
+  fetch("/api/v1/send", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

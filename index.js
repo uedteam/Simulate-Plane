@@ -4,6 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { startReceiver } from "./src/servers/receiver.js";
 import sendRoute from "./src/routes/send-route.js";
+import { setupSwagger } from "./src/utils/swagger.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,12 +21,15 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 
 // 掛載 send 路由
-app.use(sendRoute);
+app.use("/api/v1", sendRoute);
 
 // 設定首頁路由
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+
+// 設定 Swagger
+setupSwagger(app);
 
 // 處理 404 錯誤
 app.use((req, res) => {
