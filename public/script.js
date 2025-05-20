@@ -1,3 +1,4 @@
+// 改成正確 ip
 const ws = new WebSocket("ws://localhost:3032");
 const messagesDiv = document.getElementById("speed-info");
 const altitudeDiv = document.getElementById("altitude-info");
