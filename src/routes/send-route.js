@@ -1,20 +1,48 @@
 import express from "express";
-import { senderMessage } from "../servers/sender.js";
+import { sendMessage } from "../controllers/sendController.js";
+
+/**
+ * @swagger
+ * /api/v1/send:
+ *   post:
+ *     summary: 發送訊息到 UDP
+ *     description: 將訊息透過 UDP 發送到指定主機
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 description: 要發送的訊息內容
+ *     responses:
+ *       200:
+ *         description: 發送成功
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: 資料已發送
+ *       400:
+ *         description: 請提供要發送的資料
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: 請提供要發送的資料
+ *       500:
+ *         description: 伺服器錯誤
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: 傳送錯誤
+ */
 
 const router = express.Router();
 
-router.post("/send", async (req, res) => {
-  const message = req.body.message;
-  if (!message) {
-    return res.status(400).send("請提供要發送的資料");
-  }
-  try {
-    const bufferMessage = Buffer.from(message);
-    const result = await senderMessage(bufferMessage);
-    res.send(result.success);
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-});
+router.post("/send", sendMessage);
 
 export default router;
