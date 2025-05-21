@@ -11,11 +11,12 @@
 
 ## 技術棧
 
-- Node.js (Express, dgram)
+- Node.js (Express, dgram, ws, winston)
 - Lua (socket)
 - 前端：HTML、CSS、Vanilla JS
 - dotenv (環境變數管理)
 - PM2、Nodemon (開發與部署輔助)
+- Swagger (API 文件)
 
 ## 專案結構
 
@@ -23,19 +24,29 @@
 simulate-plane/
 ├── index.js                # 伺服器主程式 (Express)
 ├── package.json            # 專案設定與依賴
-├── .env                    # 環境變數設定
+├── .env.*                  # 多環境變數設定
 ├── public/                 # 前端靜態資源
 │   ├── index.html
 │   ├── style.css
-│   └── script.js
+│   ├── script.js
+│   └── 404.html
 ├── src/
-│   └── servers/
-│       ├── sender.js       # Node.js 發送端
-│       ├── receiver.js     # Node.js 接收端
-│       ├── sender.lua      # Lua 發送端
-│       └── receiver.lua    # Lua 接收端
+│   ├── controllers/
+│   │   └── sendController.js
+│   ├── routes/
+│   │   └── send-route.js
+│   ├── servers/
+│   │   ├── sender.js       # Node.js 發送端
+│   │   ├── receiver.js     # Node.js 接收端
+│   │   ├── sender.lua      # Lua 發送端
+│   │   └── receiver.lua    # Lua 接收端
 │   └── utils/
-│       └── fake.js         # 假資料產生器
+│       ├── fake.js         # 假資料產生器
+│       ├── logger.js       # 日誌工具
+│       └── swagger.js      # Swagger 設定
+├── logs/
+│   ├── app.log
+│   └── changelog.md
 └── ... 其他設定與說明文件
 ```
 
@@ -47,7 +58,7 @@ simulate-plane/
    npm install
    ```
 
-2. 設定環境變數（可參考 `.env` 範例）：
+2. 設定環境變數（可參考 `.env.development`、`.env.production` 範例）：
 
    ```env
    SENDER_PORT=49005
@@ -55,6 +66,7 @@ simulate-plane/
    RECEIVER_PORT=49004
    RECEIVER_HOST=127.0.0.1
    PORT=3031
+   WS_PORT=3032
    ```
 
 3. 啟動伺服器：
@@ -70,11 +82,10 @@ simulate-plane/
 ## UDP 模擬操作
 
 - Node.js 版本：
-  - `src/servers/sender.js`：發送假資料封包
-  - `src/servers/receiver.js`：接收封包並顯示
+  - [`src/servers/sender.js`](src/servers/sender.js)：發送資料封包
+  - [`src/servers/receiver.js`](src/servers/receiver.js)：接收封包並推播至 WebSocket
 - Lua 版本：
-
-  - `src/servers/sender.lua`、`src/servers/receiver.lua`
+  - [`src/servers/sender.lua`](src/servers/sender.lua)、[`src/servers/receiver.lua`](src/servers/receiver.lua)
   - 執行方式：
 
     ```bash
@@ -86,6 +97,16 @@ simulate-plane/
 
 - 進入首頁可看到飛行資訊與控制面板
 - 透過按鈕可模擬起飛、降落等操作，並將指令送至後端
+- 即時資料會透過 WebSocket 顯示於面板
+
+## API 文件
+
+- Swagger 文件已整合，啟動伺服器後可於 [http://localhost:3031/api-docs](http://localhost:3031/api-docs) 查看
+
+## 日誌與錯誤處理
+
+- 所有操作與錯誤會記錄於 [`logs/app.log`](logs/app.log)
+- 重大異常會於主控台顯示
 
 ## 貢獻方式
 
