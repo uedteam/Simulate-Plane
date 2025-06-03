@@ -31,24 +31,45 @@ simulate-plane/
 │   ├── script.js
 │   └── 404.html
 ├── src/
-│   ├── controllers/
-│   │   └── sendController.js
-│   ├── routes/
-│   │   └── send-route.js
-│   ├── servers/
+│   ├── controllers/        # 控制器 (業務邏輯)
+│   │   ├── sendController.js
+│   │   └── authController.js
+│   ├── middlewares/        # 中介層 (如認證、CSRF)
+│   │   ├── authMiddleware.js
+│   │   └── csrfMiddleware.js
+│   ├── models/             # 資料模型 (預留)
+│   ├── routes/             # 路由
+│   │   ├── send-route.js
+│   │   └── auth-route.js
+│   ├── servers/            # UDP/TCP 伺服器 (Node.js & Lua)
 │   │   ├── sender.js       # Node.js 發送端
 │   │   ├── receiver.js     # Node.js 接收端
 │   │   ├── sender.lua      # Lua 發送端
 │   │   └── receiver.lua    # Lua 接收端
-│   └── utils/
+│   └── utils/              # 工具模組
 │       ├── fake.js         # 假資料產生器
 │       ├── logger.js       # 日誌工具
+│       ├── cors.js         # CORS 設定
 │       └── swagger.js      # Swagger 設定
-├── logs/
+├── logs/                   # 日誌與變更紀錄
 │   ├── app.log
 │   └── changelog.md
+├── ecosystem.config.cjs    # PM2 設定
+├── eslint.config.js        # ESLint 設定
+├── swagger.yaml            # API 文件 (YAML)
 └── ... 其他設定與說明文件
 ```
+
+### 主要目錄說明
+
+- **controllers/**：負責處理 API 業務邏輯（如發送、認證）
+- **middlewares/**：Express 中介層，包含認證、CSRF 防護等
+- **models/**：資料模型（目前預留，可擴充）
+- **routes/**：API 路由定義
+- **servers/**：UDP/TCP 發送與接收端（Node.js 與 Lua 實作）
+- **utils/**：共用工具（假資料、日誌、CORS、Swagger 設定）
+- **public/**：前端靜態頁面與資源
+- **logs/**：應用日誌與變更紀錄
 
 ## 安裝與啟動
 
@@ -85,6 +106,7 @@ simulate-plane/
   - [`src/servers/sender.js`](src/servers/sender.js)：發送資料封包
   - [`src/servers/receiver.js`](src/servers/receiver.js)：接收封包並推播至 WebSocket
 - Lua 版本：
+
   - [`src/servers/sender.lua`](src/servers/sender.lua)、[`src/servers/receiver.lua`](src/servers/receiver.lua)
   - 執行方式：
 
