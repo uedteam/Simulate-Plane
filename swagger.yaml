@@ -1,0 +1,123 @@
+openapi: 3.0.0
+info:
+  title: Simulate Plane API
+  version: 1.0.0
+  description: 模擬飛機操作與資料傳輸 API 文件
+servers:
+  - url: http://localhost:3000
+    description: 開發伺服器
+  - url: http://localhost:4000
+    description: 正式伺服器
+paths:
+  /api/v1/login:
+    post:
+      summary: 使用者登入
+      description: 提供帳號密碼取得 JWT Token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: 使用者帳號
+                password:
+                  type: string
+                  description: 使用者密碼
+      responses:
+        "200":
+          description: 登入成功，回傳 JWT Token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: JWT Token
+        "400":
+          description: 請提供帳號與密碼
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 請提供帳號與密碼
+        "401":
+          description: 帳號或密碼錯誤
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 帳號或密碼錯誤
+  /api/v1/send:
+    post:
+      summary: 發送訊息到 UDP
+      description: 將訊息透過 UDP 發送到指定主機（需 JWT 驗證）
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  description: 要發送的訊息內容
+      responses:
+        "200":
+          description: 發送成功
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 資料已發送
+        "400":
+          description: 請提供要發送的資料
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 請提供要發送的資料
+        "401":
+          description: 未提供驗證 token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 未提供驗證 token
+        "403":
+          description: Token 驗證失敗
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Token 驗證失敗
+        "500":
+          description: 伺服器錯誤
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 傳送錯誤
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
