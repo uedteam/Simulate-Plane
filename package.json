@@ -1,29 +1,42 @@
 {
   "name": "simulate-plane",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
     "list": "pm2 list",
     "kill": "pm2 kill",
     "monitor": "pm2 monit",
-    "start": "nodemon index.js",
-    "start:pm2": "pm2 start index.js --name simulate-plane --watch",
-    "send:lua": "SENDER_HOST=127.0.0.1 SENDER_PORT=49004 lua ./src/servers/sender.lua",
-    "receive:lua": "RECEIVER_HOST=127.0.0.1 RECEIVER_PORT=49005 lua ./src/servers/receiver.lua"
+    "logs": "pm2 logs",
+    "start": "pm2 start ecosystem.config.cjs --only simulate-plane-prod",
+    "dev": "pm2 start ecosystem.config.cjs --only simulate-plane-dev",
+    "test": "pm2 start ecosystem.config.cjs --only simulate-plane-test",
+    "send:lua": "SENDER_HOST=127.0.0.1 SENDER_PORT=65001 lua ./src/servers/sender.lua",
+    "receive:lua": "RECEIVER_HOST=127.0.0.1 RECEIVER_PORT=65000 lua ./src/servers/receiver.lua",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "nodemon": "^3.1.10",
     "pm2": "^6.0.6",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "winston": "^3.17.0",
-    "ws": "^8.18.2"
+    "ws": "^8.18.2",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.27.0",
+    "eslint": "^9.27.0",
+    "globals": "^16.2.0"
   }
 }
