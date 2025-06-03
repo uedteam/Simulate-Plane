@@ -3,7 +3,9 @@ import { senderMessage } from "../servers/sender.js";
 /**
  * 發送訊息到 UDP
  */
-export async function sendMessage(req, res) {
+export const sendMessage = async (req, res) => {
+  console.log(req.body);
+
   const { message } = req.body;
   if (!message) {
     return res.status(400).send("請提供要發送的資料");
@@ -15,4 +17,4 @@ export async function sendMessage(req, res) {
   } catch (err) {
     res.status(500).send(err.message);
   }
-}
+};

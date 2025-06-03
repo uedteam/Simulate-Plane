@@ -1,5 +1,9 @@
-// 改成正確 ip
-const ws = new WebSocket("ws://localhost:3032");
+const wsPort = 3001;
+const wsHost =
+  location.hostname === "localhost"
+    ? "ws://localhost"
+    : "ws://kevin-workshop.ddns.net";
+const ws = new WebSocket(`${wsHost}:${wsPort}`);
 const messagesDiv = document.getElementById("speed-info");
 const altitudeDiv = document.getElementById("altitude-info");
 const directionDiv = document.getElementById("direction-info");
@@ -28,7 +32,7 @@ ws.onclose = () => {
   console.log("🔌 WebSocket 連線已關閉");
 };
 
-const handleTakeOff = () => {
+export const handleTakeOff = () => {
   fetch("/api/v1/send", {
     method: "POST",
     headers: {
@@ -50,7 +54,7 @@ const handleTakeOff = () => {
     });
 };
 
-const handleLand = () => {
+export const handleLand = () => {
   fetch("/api/v1/send", {
     method: "POST",
     headers: {

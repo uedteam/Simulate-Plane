@@ -1,14 +1,9 @@
 import dgram from "dgram";
-import dotenv from "dotenv";
 import { log, error as logError } from "../utils/logger.js";
 // import { createFakePacket } from "../utils/fake.js";
 
-dotenv.config({
-  path: `.env.${process.env.NODE_ENV || "development"}`,
-});
-
-const TARGET_PORT = process.env.SENDER_PORT || 41234;
-const TARGET_HOST = process.env.SENDER_HOST || "127.0.0.1";
+const TARGET_PORT = process.env.SENDER_PORT;
+const TARGET_HOST = process.env.SENDER_HOST;
 
 const socket = dgram.createSocket("udp4");
 

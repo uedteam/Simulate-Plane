@@ -1,15 +1,9 @@
 import dgram from "dgram";
-import dotenv from "dotenv";
-import { log, error as logError } from "../utils/logger.js";
 import { WebSocketServer } from "ws";
 
-dotenv.config({
-  path: `.env.${process.env.NODE_ENV || "development"}`,
-});
-
-const LISTEN_PORT = process.env.RECEIVER_PORT || 41235;
-const LISTEN_HOST = process.env.RECEIVER_HOST || "127.0.0.1";
-const WS_PORT = process.env.WS_PORT || 3002;
+const LISTEN_PORT = process.env.RECEIVER_PORT;
+const LISTEN_HOST = process.env.RECEIVER_HOST;
+const WS_PORT = process.env.WS_PORT;
 
 const socket = dgram.createSocket("udp4");
 const wss = new WebSocketServer({ port: WS_PORT });
